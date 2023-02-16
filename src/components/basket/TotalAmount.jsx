@@ -1,47 +1,40 @@
-import React, { useCallback, useMemo } from "react"
+import React from "react";
+import { memo } from "react";
+import styled from "styled-components";
+import Button from "../UI/Button";
 
-import styled from "styled-components"
-import Button from "../UI/Button"
+const TotalAmount = ({ price, onCLose, onOrder }) => {
+  const orderButton =
+    price > 0 ? <Button onClick={onOrder}>Order</Button> : null;
 
-const TotalAmont = ({ price, onClose, onOrder }) => {
-  const orderButton = useCallback(
-    () => (price > 0 ? <Button onClick={onOrder}>Order</Button> : null),
-    [onOrder, price]
-  )
-
-  const fixedPrice = useMemo(() => price.toFixed(2), [price])
+  const fixedPrice = price.toFixed(2);
 
   return (
     <Container>
       <InfoContainer>
-        <Label>Total Amout</Label>
+        <Label>Total amount</Label>
         <Price>${fixedPrice}</Price>
       </InfoContainer>
 
       <ActionButtonsContainer>
-        <Button variant="outlined" onClick={onClose}>
-          Close
+        <Button variant="outlines" onClick={onCLose}>
+          close
         </Button>
-        {orderButton()}
+        {orderButton}
       </ActionButtonsContainer>
     </Container>
-  )
-}
+  );
+};
 
-export default TotalAmont
-
-const Container = styled.div`
-  padding-top: 30px;
-`
+export default memo(TotalAmount);
 
 const Label = styled.p`
   font-weight: 700;
   font-size: 20px;
   line-height: 30px;
   text-align: center;
-  color: #222222;
   margin: 0;
-`
+`;
 
 const Price = styled.p`
   font-weight: 600;
@@ -49,16 +42,20 @@ const Price = styled.p`
   line-height: 33px;
   color: #8a2b06;
   margin: 0;
-`
+`;
 
 const InfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const ActionButtonsContainer = styled.div`
   margin-top: 24px;
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-`
+`;
+
+const Container = styled.div`
+  margin: 30px 0 0 0;
+`;

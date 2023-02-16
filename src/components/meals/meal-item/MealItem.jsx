@@ -1,56 +1,55 @@
-import MealItemForm from "./MealItemForm"
-import styled from "styled-components"
+import React from "react";
+import styled from "styled-components";
+import MealItemForm from "./MealItemForm";
 
-const MealItem = ({ title, description, price, id }) => {
+const MealItem = ({ item }) => {
   return (
-    <Container>
-      <StyledItemInfo>
-        <StyleTitle>{title}</StyleTitle>
-        <p>{description}</p>
-        <span>${price}</span>
-      </StyledItemInfo>
-      <MealItemForm id={id} price={price} title={title} />
-    </Container>
-  )
-}
+    <StyledLi>
+      <StyledInfoCard>
+        <Title>{item.title}</Title>
+        <Description>{item.description}</Description>
+        <Price>${item.price}</Price>
+      </StyledInfoCard>
+      <MealItemForm id={item._id} title={item.title} price={item.price} />
+    </StyledLi>
+  );
+};
 
-export default MealItem
+export default MealItem;
 
-const Container = styled.li`
-  list-style: none;
+const Title = styled.h4`
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.6875rem;
+  margin-bottom: 0;
+`;
+
+const Description = styled.p`
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin: 0;
+`;
+
+const Price = styled.span`
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.875rem;
+  color: #ad5502;
+`;
+
+const StyledLi = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #d6d6d6;
-  margin-bottom: 20px;
+  border-bottom: 0.0625rem solid #d6d6d6;
+
   :last-child {
-    border: none;
-    margin-bottom: 0;
+    border-bottom: none;
   }
-`
+`;
 
-const StyledItemInfo = styled.div`
-  margin-bottom: 20px;
-  p {
-    font-style: italic;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    margin: 0;
-  }
-  span {
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 30px;
-    color: #ad5502;
-    margin-top: 0px;
-  }
-`
-
-const StyleTitle = styled.h4`
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 27px;
-  color: #222222;
-  margin-bottom: 0;
-`
+const StyledInfoCard = styled.div`
+  margin-bottom: 1.25rem;
+`;

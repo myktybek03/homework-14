@@ -1,81 +1,42 @@
-import React, { useEffect, useState } from "react"
-import styled from "styled-components"
-import { fetchAPI } from "../../lib/fetchApi"
-import MealItem from "./meal-item/MealItem"
-
-// const DUMMY_MEALS = [
-//   {
-//     id: "meal1",
-//     title: "Sushi",
-//     description: "Finest fish and veggies",
-//     price: 22.99,
-//   },
-//   {
-//     id: "meal2",
-//     title: "Schnitzel",
-//     description: "A german specialty!",
-//     price: 16.0,
-//   },
-//   {
-//     id: "meal3",
-//     title: "Barbecue Burger",
-//     description: "American, raw, meaty",
-//     price: 12.99,
-//   },
-//   {
-//     id: "meal4",
-//     title: "Green Bowl",
-//     description: "Healthy...and green...",
-//     price: 19.99,
-//   },
-// ]
+import React, { memo } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import MealItem from "./meal-item/MealItem";
+import { getMeals } from "../../store/meals/MealsReducer";
 
 const Meals = () => {
-  const [meals, setMeals] = useState([])
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
+  const { meals, isLoading, error } = useSelector((state) => state.meals);
 
-  const getMeals = async () => {
-    try {
-      const response = await fetchAPI("foods")
-
-      setMeals(response.data)
-      setIsLoading(false)
-    } catch (error) {
-      setError("Failed to load meals")
-    }
-  }
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getMeals()
-  }, [])
+    dispatch(getMeals());
+  }, [dispatch]);
 
   return (
     <Card>
-      <ul>
-        {isLoading && <p>Loading.........</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {meals.map((meal, index) => {
-          return (
-            <MealItem
-              key={index}
-              title={meal.title}
-              description={meal.description}
-              price={meal.price}
-              id={meal._id}
-            />
-          )
-        })}
-      </ul>
+      {isLoading && !error && <p>Loading</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <StyledUl>
+        {meals.map((item) => (
+          <MealItem key={item._id} item={item} />
+        ))}
+      </StyledUl>
     </Card>
-  )
-}
-export default Meals
+  );
+};
+
+export default memo(Meals);
 
 const Card = styled.div`
-  background: #ffffff;
-  border-radius: 16px;
+  background: #fff;
+  border-radius: 1rem;
   width: 64.9375rem;
-  margin: 40px auto;
-  padding: 40px 40px 36px 40px;
-`
+  margin: 160px auto;
+`;
+
+const StyledUl = styled.ul`
+  list-style: none;
+  padding: 20px 40px;
+`;

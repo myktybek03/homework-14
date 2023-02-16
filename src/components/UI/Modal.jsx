@@ -2,12 +2,12 @@ import React from "react"
 import { createPortal } from "react-dom"
 import styled from "styled-components"
 
-const ModalContent = ({ children }) => {
-  return <StyledModalContent>{children}</StyledModalContent>
-}
-
 const Backdrop = ({ onClose }) => {
   return <StyledBackdrop onClick={onClose} />
+}
+
+const ModalContent = ({ children }) => {
+  return <StyledModalContent>{children}</StyledModalContent>
 }
 
 const backdropRoot = document.getElementById("backdrop")
@@ -38,6 +38,7 @@ const StyledModalContent = styled.div`
   position: fixed;
   top: 20vh;
   left: 5%;
+  width: 90%;
   background-color: white;
   padding: 1rem;
   border-radius: 14px;
